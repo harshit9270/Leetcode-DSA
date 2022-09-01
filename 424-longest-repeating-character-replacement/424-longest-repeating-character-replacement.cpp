@@ -1,28 +1,50 @@
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        int n=s.length();
-        int i=0;//->window start
-        int j=0;//->window end
-        int maxC=0;//->max no of repeating elements 
-        int ans=-1;
-        unordered_map<char,int> mp;
-        while(j<n)
-        {
-            mp[s[j]]++;
-            maxC=max(maxC,mp[s[j]]);
-            
-            int curr_len=j-i+1;//Curr Len of the window
-            if(curr_len-maxC>k) //the curr window has more than k replacable items case
-            {
-                mp[s[i]]--;
-                i++;// shrinking the window
-            }
-            curr_len=j-i+1;// just in case i is changed
-            ans=max(ans,curr_len);
-            j++;
-        }
+      
         
+        /* Store the occurence of each charater in our window */
+        vector<int> frequency(26,0);    
+        
+        
+        int end = 0;     // End pointer of our window
+        int start = 0;   // Start pointer of our window
+        
+        
+        /* Store max frequency within window */
+        int max_freq_within_window = 0; 
+        
+        int ans = 0;  // our final answer to return
+        
+        while(end < s.length())
+        {
+            frequency[s[end] - 'A']++;  // updating frequency of character
+            
+            max_freq_within_window = max(max_freq_within_window, frequency[s[end] - 'A']);
+            
+            /* if our window size - max_freq > k 
+            *    meaning -> we change more character then needed, we will shrink our window.
+            *    See example below.
+            *     
+            *    end - start + 1 = current window size.
+            */
+            
+            while(end - start + 1 - max_freq_within_window > k)
+            {
+                ans = max(ans, end-start);
+                frequency[s[start] - 'A']--;
+                start++; // reducing window.
+                
+                /* since we removed one element from window, we should update our 
+                   max_freq_within_window variable too.
+                */
+                max_freq_within_window = *max_element(frequency.begin(),frequency.end());
+            }
+            end++;
+        }
+        ans = max(ans, end-start);
         return ans;
+        
+        
     }
 };
