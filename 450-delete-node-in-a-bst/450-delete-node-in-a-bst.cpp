@@ -30,14 +30,11 @@ public:
                 return root->left ? root->left : root->right;    
             
             //Two child condition
-            TreeNode* temp = root->left;                        
-            //(or) TreeNode *temp = root->right;
-            while(temp->right != NULL) temp = temp->right;     
-            //       while(temp->left != NULL) temp = temp->left;
-            root->val = temp->val;                            
-            //       root->val = temp->val;
-            root->left = deleteNode(root->left, temp->val);  
-            //       root->right = deleteNode(root->right, temp);		
+            TreeNode *temp=root->left;
+            while(temp->right)
+                temp = temp->right;
+            temp->right = root->right;
+            return root->left;		
         }
         
         return root;
