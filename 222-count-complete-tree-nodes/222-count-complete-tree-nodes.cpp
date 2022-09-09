@@ -11,30 +11,20 @@
  */
 class Solution {
 public:
-    // Using Level order traversal
-    int countNodes(TreeNode* root) {
-        if(root == NULL)
-        return 0;
+    // Using dfs
+    int count = 0;
+    void helper(TreeNode* root){
+        if(!root)
+            return;
+        
+        count++;
+        
+        helper(root->left);
+        helper(root->right);
+    }
     
-        int res = 0;
-        queue<TreeNode *> q;
-        q.push(root);
-        while(!q.empty())
-        {
-
-            for(int i = 0; i < q.size(); ++ i)
-            {
-                 ++ res;
-                TreeNode *p = q.front();
-                q.pop();
-
-                if(p -> left != NULL)
-                    q.push(p -> left);
-                if(p -> right != NULL)
-                    q.push(p -> right);
-            }
-        }
-
-        return res;
+    int countNodes(TreeNode* root) {
+        helper(root);
+        return count;
     }
 };
