@@ -11,21 +11,36 @@
  */
 class Solution {
 public:
-    // Recursive Approach
-    void preorder(TreeNode* root, vector<int> & pre){
-        if(!root)    
-            return;
-        
-        pre.push_back(root->val);
-        preorder(root->left, pre);
-        preorder(root->right, pre);
-    }
-    
+     //Using stack
     vector<int> preorderTraversal(TreeNode* root) {
-        vector<int> pre;
+        vector<int> ans;
         
-        preorder(root, pre);
+        if(!root)
+            return ans;
         
-        return pre;        
+        stack<TreeNode*> st;
+        st.push(root);
+        
+        while (!st.empty()) {
+            // Pick out the top node, put it in answer array
+            TreeNode* currNode = st.top();
+            st.pop();
+            
+            ans.push_back(currNode->val);
+            
+            // push the right child of the popped node into the stack
+            if (currNode->right) {
+                st.push(currNode->right);
+            }
+
+            // push the left child of the popped node into the stack
+            if (currNode->left) {
+                st.push(currNode->left);
+            }
+
+            // the right child must be pushed first so that the left child
+            // is processed first (LIFO order)
+        }
+        return ans; 
     }
 };
