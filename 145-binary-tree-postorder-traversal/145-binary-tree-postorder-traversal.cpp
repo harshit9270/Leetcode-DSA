@@ -11,14 +11,33 @@
  */
 class Solution {
 public:
-    // Recursive Approach
+    // Iterative Approach
     void postorder(TreeNode* root, vector<int> & post){
         if(!root)    
             return;
+ 
+        // create an empty stack and push the root node
+        stack<TreeNode*> s;
+        s.push(root);
         
-        postorder(root->left, post);
-        postorder(root->right, post);
-        post.push_back(root->val);
+        // loop till stack is empty
+        while (!s.empty())
+        {
+            // pop a node from the stack and push the data into the vector
+            TreeNode* curr = s.top();
+            s.pop();
+
+            post.insert(post.begin(), curr->val);
+
+            // push the left and right child of the popped node into the stack
+            if (curr->left) {
+                s.push(curr->left);
+            }
+
+            if (curr->right) {
+                s.push(curr->right);
+            }
+        }
     }
     
     vector<int> postorderTraversal(TreeNode* root) {
