@@ -5,15 +5,9 @@ public:
         int majority,count=0;
         for(int i=0;i<nums.size();i++)
         {
-            if(count)
-            {
-                count+=(nums[i]==majority ? 1 : -1);
-            }
-            else
-            {
-                majority=nums[i];
-                count=1;
-            }
+            if (count == 0)
+                majority = nums[i];
+            count += nums[i] == majority ? 1 : -1;
         }
         return majority;
     }
