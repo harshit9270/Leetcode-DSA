@@ -1,23 +1,21 @@
-// Using sorting
+// Using hashsets
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        if(!size(nums))
-            return 0;
+        unordered_set<int> s(nums.begin(), nums.end());
         
-        sort(begin(nums), end(nums));
+        int longest = 0;
         
-        int longest = 0, cur_longest = 1;
-        
-        for(int i = 1; i < size(nums); i++){
-            if(nums[i] == nums[i - 1]) 
+        for(auto& num : s) {
+            if(s.count(num - 1)) 
                 continue;
-            else if(nums[i] == nums[i - 1] + 1) 
-                cur_longest++; 
-            else   
-                longest = max(longest, cur_longest), cur_longest = 1;  
+            
+            int j = 1;
+            while(s.count(num + j)) j++;
+            
+            longest = max(longest, j);
         }
         
-        return max(longest, cur_longest);
+        return longest;
     }
 };
