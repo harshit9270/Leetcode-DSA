@@ -3,54 +3,35 @@ public:
     queue<int> q;
     
     MyStack() {
-        
     }
     
     void push(int x) {
-        
-        
         q.push(x);
     }
     
     int pop() {
-        
-         // 1 2 3
-        // 1 2
-    
         queue<int> q2;
         int size = q.size();
         int top = q.back();
         
-        size--;
-        
+        size--;        
         while(size--)
-        {
-            
+        {            
             q2.push(q.front());
-            q.pop();
-            
-            
-            
+            q.pop();      
         }
         
         q = q2;
-        
         return top;
-        
-        
-        
     }
     
     int top() {
-        
-            return q.back();
-            
-            
+        return q.back(); 
     }
     
     bool empty() {
         return q.empty();
-        }
+    }
 };
 
 /**
