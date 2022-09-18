@@ -8,29 +8,36 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
-// Using Set + Extra Space
 class Solution {
 public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(list1 == NULL)
+            return list2;
+        if(list2 == NULL)
+            return list1;
+        
+        ListNode* res;
+        if(list1 -> val < list2 -> val){
+            res = list1;
+            res -> next = mergeTwoLists(list1 -> next, list2);
+        }
+        else{
+            res = list2;
+            res -> next = mergeTwoLists(list1, list2 -> next);
+        }
+        
+        return res;
+        
+    }
+    
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        //multiset allows duplicate entries and stores in sorted order
-        multiset<int> s;
+        if (lists.size() == 0) return NULL;
         
-        for(auto list : lists){
-            while(list){
-                s.insert(list->val);
-                list = list->next;
-            }
-        }
+        ListNode* head = lists[0];
         
-        ListNode* head = new ListNode;
-        ListNode* temp = head;
+        for (int i = 1; i < lists.size(); i++)
+            head = mergeTwoLists(head, lists[i]);
         
-        for(int i : s){
-            temp->next = new ListNode(i);
-            temp = temp->next;
-        }
-        
-        return head->next;
+        return head;
     }
 };
