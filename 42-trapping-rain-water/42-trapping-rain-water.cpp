@@ -1,32 +1,30 @@
-// Precalculating left and right
+// Using stack (Yet to understand this approach)
 class Solution {
 public:
     // Each block can store a maximum of {min(leftMax, rightMax) - ownHeight}
     int trap(vector<int>& height) {
         int n = height.size();
-        
-        // left stores the maximum left element for every i th element
-        // likewise right stores maximum element on right for every i th element
-        vector<int> left(n), right(n);
-        
+        stack<int> st;
         int water = 0;
-        left[0] = height[0];
         
-        for(int i=1; i<n; i++)
-            left[i] = max(left[i-1], height[i]);
-        
-        right[n-1] = height[n-1];
-        
-        for(int i=n-2; i>=0; i--)
-            right[i] = max(right[i+1], height[i]);
-        
-        for(int i=1; i<n-1; i++){
-            int x = min(left[i], right[i]);
+        for(int i=0; i<n; i++){
+            while(!st.empty() && height[st.top()] < height[i]){
+                int pop_height = height[st.top()];
+                st.pop();
+                
+                if(st.empty())
+                    break;
+                
+                int distance = i-st.top()-1;
+                
+                int min_height = min(height[st.top()], height[i]) - pop_height;
+                
+                water += distance*min_height;
+            }
             
-            if(x > height[i])
-                water += x - height[i];
+            st.push(i);
         }
         
-        return water;        
+        return water;
     }
 };
