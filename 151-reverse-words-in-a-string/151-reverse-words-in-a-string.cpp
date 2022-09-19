@@ -1,32 +1,26 @@
-// Using Stack
 class Solution {
 public:
-    string reverseWords(string s) {        
+    string reverseWords(string s) {
+        
+        stringstream ss(s); // breaking input string into word using string stream 
+                            
+        string ans = "";
+        string str;
+        
         stack<string> st;
-        
-        for(int i =0;i<s.length();i++){
-            string word=""; 
-            
-            if(s[i]==' ')
-                continue;
-            
-            while(s[i]!=' ' and i<s.length()){
-                word+=s[i];
-                i++;
-            }
-            
-            st.push(word);
+        while(ss >> str)     // read individual word in string str 
+        {
+           st.push(str);    
         }
         
-        string res = "";
-        
-        while(!st.empty()){
-            res += st.top();
+        while(!st.empty())
+        {
+            if(ans.size())  
+                ans+=' ';
+            ans += st.top();
             st.pop();
-            
-            res += (st.empty()) ? "" : " ";
         }
         
-        return res;
+        return ans;
     }
 };
