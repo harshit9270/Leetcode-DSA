@@ -1,25 +1,29 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        
-        stringstream ss(s); // breaking input string into word using string stream 
-                            
         string ans = "";
-        string str;
+        string temp = "";
         
-        stack<string> st;
-        while(ss >> str)     // read individual word in string str 
-        {
-           st.push(str);    
+        for(int i=s.size()-1; i>=0; i--){
+            if(s[i] == ' '){
+                if(temp == "")
+                    continue;
+                
+                reverse(temp.begin(), temp.end());
+                ans += temp;
+                ans += " ";
+                temp = "";
+            }
+            else{
+                temp += s[i];
+            }
         }
         
-        while(!st.empty())
-        {
-            if(ans.size())  
-                ans+=' ';
-            ans += st.top();
-            st.pop();
-        }
+        reverse(temp.begin(), temp.end());
+        ans += temp;
+        
+        while(ans[ans.size()-1] == ' ')
+            ans.pop_back();
         
         return ans;
     }
