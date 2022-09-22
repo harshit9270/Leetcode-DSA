@@ -9,22 +9,30 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+// Using Level Order Traversal 
+// O(h)
 class Solution {
 public:
-    // Using dfs
-    int count = 0;
-    void helper(TreeNode* root){
-        if(!root)
-            return;
-        
-        count++;
-        
-        helper(root->left);
-        helper(root->right);
-    }
-    
     int countNodes(TreeNode* root) {
-        helper(root);
+        int count = 0;
+        if(!root)
+            return 0;
+        
+        queue<TreeNode *> q;
+        q.push(root);
+        
+        while(!q.empty()){
+            TreeNode * temp = q.front();
+            q.pop();
+            
+            count ++;
+            
+            if(temp->left)
+                q.push(temp->left);
+            if(temp->right)
+                q.push(temp->right);
+        }
+        
         return count;
     }
 };
