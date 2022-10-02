@@ -1,18 +1,16 @@
 class Solution {
 public:
-     vector<int> intersection(vector<vector<int>>&nums) {
-        map<int, int> countMap;
-        vector<int> inEachArray;
-         
-        for (auto num : nums) {
-            for (auto x : num) {
-                countMap[x]++;
-                if (countMap[x] == nums.size())
-                     inEachArray.push_back(x);
-            }
-        }
-         
-        sort(inEachArray.begin(), inEachArray.end());
-        return inEachArray;
+    vector<int> intersection(vector<vector<int>>& nums) {
+        vector<int> cnt(1001), res;
+        
+        for (auto &arr: nums)
+            for (int n : arr)
+                ++cnt[n];
+        
+        for (int i = 0; i < cnt.size(); ++i)
+            if (cnt[i] == nums.size())
+                res.push_back(i);
+        
+        return res;
     }
 };
