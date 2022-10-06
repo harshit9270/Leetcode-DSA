@@ -1,48 +1,22 @@
 class TimeMap {
+    unordered_map<string,unordered_map<int,string>>storage;
+    
 public:
-    unordered_map<string, vector<pair<int, string>>> m; 
     TimeMap() {
         
     }
     
-    string greatestValLessThan(int timestamp, vector<pair<int, string>>& s){
-        int start = 0, end = s.size()-1;
-        int ans = INT_MIN;
-        string str = "";
-        
-        while(start <= end){
-            int mid = start + (end-start)/2;
-            
-            auto x = s[mid];
-            int num = x.first;
-            string str_temp = x.second;
-            
-            if(num > timestamp){
-                end = mid -1;
-            }
-            else{
-                if(num > ans){
-                    str = str_temp;
-                    ans = num;
-                }
-                start = mid+1;
-            }
-        }
-        
-        return str;
-    }
-    
     void set(string key, string value, int timestamp) {
-        m[key].push_back({timestamp,value});  
+        storage[key][timestamp]=value;
     }
     
     string get(string key, int timestamp) {
-        string ans = "";
-        
-        ans = greatestValLessThan(timestamp,m[key]);
-        return ans;
+        for(int t=timestamp;t>0;t--){
+            if(storage[key].find(t)!=storage[key].end())
+                return storage[key][t];
+        }
+        return "";
     }
-    
 };
 
 /**
