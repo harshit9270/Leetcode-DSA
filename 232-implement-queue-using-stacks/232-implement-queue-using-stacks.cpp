@@ -1,4 +1,5 @@
 // Using 2 stacks
+// Roles reversed (using costly operation for push, so that pop & peek are cheap)
 class MyQueue {
     stack<int> st;
 public:
@@ -7,46 +8,30 @@ public:
     }
     
     void push(int x) {
+        stack<int> temp;
+        
+        while(!st.empty()){
+            temp.push(st.top());
+            st.pop();
+        }
+        
         st.push(x);
+        
+        while(!temp.empty()){
+            st.push(temp.top());
+            temp.pop();
+        }
     }
     
     int pop() {
-        stack<int> temp;
-        
-        int size = st.size();
-        while(--size){
-            temp.push(st.top());
-            st.pop();
-        }
-        
-        int elementToPop = st.top();
+        int topElement = st.top();
         st.pop();
         
-        while(!temp.empty()){
-            st.push(temp.top());
-            temp.pop();
-        }
-        
-        return elementToPop;
+        return topElement;
     }
     
     int peek() {
-        stack<int> temp;
-        
-        int size = st.size();
-        while(--size){
-            temp.push(st.top());
-            st.pop();
-        }
-        
-        int elementAtTop = st.top();
-        
-        while(!temp.empty()){
-            st.push(temp.top());
-            temp.pop();
-        }
-        
-        return elementAtTop;
+        return st.top();
     }
     
     bool empty() {
