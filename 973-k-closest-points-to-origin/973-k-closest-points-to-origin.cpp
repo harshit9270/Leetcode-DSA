@@ -7,13 +7,13 @@ public:
         priority_queue<piv, vector<piv>> pq;
         
         for(int i=0; i<k; i++){
-            double distance = pow(double(pow(points[i][0], 2) + pow(points[i][1], 2)), 0.5);
+            double distance = pow((points[i][0]*points[i][0] + points[i][1]*points[i][1]), 0.5);
             
             pq.push(make_pair(distance, points[i]));
         }
         
         for(int i=k; i<points.size(); i++){
-            double distance = pow(double(pow(points[i][0], 2) + pow(points[i][1], 2)), 0.5);
+            double distance = pow((points[i][0]*points[i][0] + points[i][1]*points[i][1]), 0.5);
             
             if(pq.top().first > distance){
                 pq.pop();
