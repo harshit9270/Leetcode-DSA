@@ -20,35 +20,29 @@
  * };
  */
 
-// Linked List -> Vector -> BST
+// Linked List -> BST using slow and fast pointer
 
 class Solution {
-    void llToVector(ListNode* head, vector<int> & vec){
-        while(head){
-            vec.push_back(head->val);
-            head = head->next;
+public:
+    TreeNode* convertToBST(ListNode* start, ListNode* end){
+        if(start == end) return nullptr;
+        ListNode* slow = start;
+        ListNode* fast = start;
+
+        while(fast!=end && fast->next!=end){
+            slow = slow->next;
+            fast = fast->next->next;
         }
-    }
-    
-    TreeNode* vectorToBST(vector<int> & vec, int start, int end){
-        if(start > end)
-            return NULL;
-        
-        int mid = start + (end-start)/2;
-        TreeNode* head = new TreeNode(vec[mid]);
-        
-        head->left = vectorToBST(vec, start, mid-1);
-        head->right = vectorToBST(vec, mid+1, end);
-        
+
+        TreeNode* head = new TreeNode(slow->val);
+        head->left = convertToBST(start, slow);
+        head->right = convertToBST(slow->next, end);
         return head;
     }
-public:
+
     TreeNode* sortedListToBST(ListNode* head) {
-        vector<int> vec;
-        llToVector(head, vec);
-        
-        int n = vec.size();
-        return vectorToBST(vec, 0, n-1);
+        if(head == nullptr) return nullptr;
+        return convertToBST(head, nullptr);
     }
 };
 
