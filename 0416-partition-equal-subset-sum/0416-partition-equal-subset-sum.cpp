@@ -1,21 +1,23 @@
-// Top down DP
+// Bottom up DP
 class Solution{
 private: 
-    bool solveMemo(vector<int>&arr, int target, vector<vector<int>>& dp, int index, int sum){
+    bool solveTab(vector<int>&arr, int target){
         int n = arr.size();
-        if(index >= n || sum > target) 
-            return false;
-        if(sum == target) 
-            return true;
+        vector<vector<int>> dp(n+1, vector<int>(target+1, 0));
         
-        if(dp[index][sum] != -1)
-            return dp[index][sum];
+        for(int i = 0; i <= n; i++)
+            dp[i][0] = 1;
         
-        bool take = solveMemo(arr, target, dp, index+1, sum+arr[index]);
-        bool nottake = solveMemo(arr, target, dp, index+1, sum);
+        for(int i = 1; i <= n; i++){
+            for(int j = 1; j <= target; j++){
+                if(arr[i-1] <= j)
+                    dp[i][j] = dp[i-1][j-arr[i-1]] || dp[i-1][j];
+                else
+                    dp[i][j] = dp[i-1][j];
+            }
+        }
         
-        dp[index][sum] = (take || nottake);
-        return dp[index][sum];
+        return dp[n][target];
     }
     
 public:
@@ -31,7 +33,6 @@ public:
         
         int target = total/2;
         
-        vector<vector<int>> dp(n+1, vector<int>(target+1, -1));
-        return solveMemo(arr, target, dp, 0, 0);
+        return solveTab(arr, target);
     }
 };
