@@ -24,7 +24,7 @@ class Solution {
             }
         }
         
-        return min(dp[1][0], dp[1][1]);
+        return dp[1][0];
     }
 public:
     int minSwap(vector<int>& nums1, vector<int>& nums2) {
