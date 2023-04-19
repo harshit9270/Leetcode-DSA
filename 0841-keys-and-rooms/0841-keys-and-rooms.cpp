@@ -10,14 +10,15 @@ public:
     }
 
     bool canVisitAllRooms(vector<vector<int>>& rooms) {
-        int i, n=rooms.size();
-        vector<bool> vis(n, false);
+        vector<bool> vis(rooms.size(), false);
+        
         dfs(rooms, 0, vis);
-        for(i = 0; i < n; i++){
-            if(!vis[i]){
+        
+        for(int i = 0; i < rooms.size(); i++){
+            if(!vis[i])
                 return false;
-            }
         }
+        
         return true;
     }
 };
