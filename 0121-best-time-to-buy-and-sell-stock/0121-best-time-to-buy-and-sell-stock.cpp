@@ -1,15 +1,26 @@
+// Sliding Window Approach
 class Solution {
 public:
-    // Optimal TC-> O(n) SC-> O(1)
     int maxProfit(vector<int>& prices) {
+        if(prices.size() == 1)
+            return 0;
+        
+        int left = 0;
+        int right = 1;
+        
         int maxPro = 0;
-        int minPrice = INT_MAX;
-
-        for (int i = 0; i < prices.size(); i++) {
-            maxPro = max(maxPro, prices[i] - minPrice);
-            minPrice = min(minPrice, prices[i]);
+        
+        while(right < prices.size()){
+            if(prices[left] > prices[right]){
+                left = right;
+                right ++;
+            }
+            else{
+                maxPro = max(maxPro, prices[right] - prices[left]);
+                right++;
+            }
         }
-
+        
         return maxPro;
     }
 };
