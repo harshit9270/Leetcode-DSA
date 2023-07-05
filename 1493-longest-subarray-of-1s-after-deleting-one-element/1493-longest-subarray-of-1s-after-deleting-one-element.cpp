@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // Sliding window
     int longestSubarray(vector<int>& nums) {
         int start = 0, end = 0;
         int longestLength = 0;
