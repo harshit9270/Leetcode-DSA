@@ -8,52 +8,47 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-
-// Using priority queue
-
-class cmp{
-public:
-    bool operator()(ListNode* a, ListNode* b){
-        return a->val > b->val;
-    }
-};
-
 class Solution {
 public:
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
-        // min heap
-        priority_queue<ListNode* , vector<ListNode*>, cmp> pq;
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(list1 == NULL)
+            return list2;
+        if(list2 == NULL)
+            return list1;
         
-        for(ListNode* l : lists)
-            if(l)
-                pq.push(l);
-        
-        ListNode* head = new ListNode();
-        ListNode* ptr = head;
-        
-        while(! pq.empty()){
-            ListNode* curr = pq.top();
-            pq.pop();
+        ListNode* res = new ListNode;
+        ListNode* head = res;
             
-            if(curr->next)
-                pq.push(curr->next);
-            
-            ptr->next = curr;
-            ptr = ptr->next;            
+        while(list1 && list2){
+            if(list1 -> val < list2 -> val){
+                res -> next = list1;
+                res = res->next;
+                list1 = list1->next;
+            }
+            else{
+                res -> next = list2;
+                res = res->next;
+                list2 = list2->next;
+            }
         }
+        
+        if(list1)
+            res->next = list1;
+        
+        if(list2)
+            res->next = list2;
         
         return head->next;
     }
+    
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if (lists.size() == 0) return NULL;
+        
+        ListNode* head = lists[0];
+        
+        for (int i = 1; i < lists.size(); i++)
+            head = mergeTwoLists(head, lists[i]);
+        
+        return head;
+    }
 };
-
-
-
-
-
-
-
-
-
-
-
-
