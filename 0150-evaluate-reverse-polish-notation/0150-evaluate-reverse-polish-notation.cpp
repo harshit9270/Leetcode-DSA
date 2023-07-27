@@ -5,8 +5,8 @@ public:
 
         for(auto& t : tokens){
             if(t == "+" || t == "-" || t == "*" || t == "/") {
-                long long int a = s.top(); s.pop();
-                long long int b = s.top(); s.pop();
+                int a = s.top(); s.pop();
+                int b = s.top(); s.pop();
 
                 if(t == "+") a = b + a;
                 if(t == "-") a = b - a;
@@ -15,7 +15,7 @@ public:
                 s.push(a);
             }
             else 
-                s.push(stoll(t));
+                s.push(stoi(t));
         }
 
         return s.top(); 
